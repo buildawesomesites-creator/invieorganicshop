@@ -4,11 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Manager</title>
-    <!-- Decap CMS script -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   </head>
   <body>
-    <!-- CMS will load here -->
     <script>
       CMS.init({
         config: {
@@ -16,7 +14,22 @@
             name: "github",
             repo: "buildawesomesites-creator/invieorganicshop",
             branch: "main"
-          }
+          },
+          media_folder: "images",
+          public_folder: "/images",
+          collections: [{
+            name: "products",
+            label: "Products",
+            folder: "products",
+            create: true,
+            fields: [
+              {label: "Name", name: "title", widget: "string"},
+              {label: "Price", name: "price", widget: "number"},
+              {label: "Category", name: "category", widget: "select", options: ["Vegetables", "Fruits"]},
+              {label: "Image", name: "image", widget: "image"},
+              {label: "Description", name: "body", widget: "markdown"}
+            ]
+          }]
         }
       });
     </script>
