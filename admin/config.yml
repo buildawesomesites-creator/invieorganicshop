@@ -1,3 +1,11 @@
+backend:
+  name: github
+  repo: buildawesomesites-creator/invieorganicshop
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
 collections:
   - name: "products"
     label: "Products"
@@ -10,3 +18,4 @@ collections:
       - {label: "Tags", name: "tags", widget: "list"}
       - {label: "Image", name: "image", widget: "image"}
       - {label: "Description", name: "body", widget: "markdown"}
+      
