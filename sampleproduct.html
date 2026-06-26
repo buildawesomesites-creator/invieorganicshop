@@ -1,13 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invie Organic Shop</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        
+        #category-select { width: 100%; padding: 10px; margin-bottom: 20px; font-size: 16px; }
+
+        #product-container {
+            display: grid;
+            /* Mobile first: 1 column, tablets/desktop: 3 columns */
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+
+        .product-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; }
+    </style>
+</head>
 <body>
+
     <select id="category-select" onchange="loadCategory(this.value)">
         <option value="dairy">Dairy</option>
         <option value="vegetables">Vegetables</option>
         <option value="drinks">Drinks</option>
     </select>
 
-    <div id="product-container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;"></div>
+    <div id="product-container"></div>
 
     <script>
         async function loadCategory(category) {
@@ -15,10 +42,7 @@
             container.innerHTML = 'Loading...';
 
             try {
-                // RELATIVE PATH: This looks for the file in the same folder as the HTML
-                // Make sure your folder structure is /products/dairy.json
                 const response = await fetch(`./products/${category}.json`);
-                
                 if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 
                 const products = await response.json();
@@ -27,22 +51,19 @@
                 products.forEach(product => {
                     const card = document.createElement('div');
                     card.className = 'product-card';
-                    card.style.border = "1px solid #ccc";
-                    card.style.padding = "10px";
                     card.innerHTML = `
-                        <img src="${product.image}" alt="${product.title}" style="width:100%">
+                        <img src="${product.image}" alt="${product.title}">
                         <h3>${product.title}</h3>
                         <p>Price: ${product.price}</p>
                     `;
                     container.appendChild(card);
                 });
             } catch (error) {
-                container.innerHTML = 'Could not load products. Check console for error.';
+                container.innerHTML = 'Could not load products.';
                 console.error("Fetch error:", error);
             }
         }
 
-        // Load default
         loadCategory('dairy');
     </script>
 </body>
