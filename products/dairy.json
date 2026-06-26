@@ -1,7 +1,9 @@
-{
-  "title": "Milk",
-  "price": 30000,
-  "tags": "Milk",
-  "image": "https://invieorganicshop.web.app/images/milk-image.jpeg",
-  "body": "Milk product."
-}
+[
+  {
+    "title": "Milk",
+    "price": 30000,
+    "tags": "Milk",
+    "image": "https://invieorganicshop.web.app/images/milk-image.jpeg",
+    "body": "Milk product."
+  }
+]
