@@ -1,6 +1,7 @@
 media:
   path: images
   public: /images
+  upload: true
 
 content:
   - name: products
