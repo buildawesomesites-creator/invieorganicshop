@@ -1,8 +1,3 @@
-media:
-  path: images
-  public: /images
-  upload: true
-
 content:
   - name: products
     label: Products
@@ -32,8 +27,8 @@ content:
         label: Tags
         type: list
       - name: image
-        label: Image
-        type: image
+        label: Image URL
+        type: string
       - name: body
         label: Description
         type: rich-text
