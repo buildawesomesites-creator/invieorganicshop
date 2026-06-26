@@ -1,0 +1,30 @@
+collections:
+  - name: products
+    label: Products
+    folder: products
+    format: json
+    fields:
+      - name: title
+        label: Name
+        widget: string
+      - name: price
+        label: Price
+        widget: number
+      - name: category
+        label: Category
+        widget: select
+        options:
+          - Vegetables
+          - Fruits
+          - Grains
+          - Dairy
+      - name: tags
+        label: Tags
+        widget: list
+      - name: image
+        label: Image
+        widget: image
+      - name: body
+        label: Description
+        widget: markdown
+        
