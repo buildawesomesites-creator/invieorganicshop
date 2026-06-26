@@ -7,17 +7,14 @@
     <style>
         body { font-family: sans-serif; padding: 20px; }
         #category-select { width: 100%; padding: 10px; margin-bottom: 20px; font-size: 16px; }
-        #product-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        .product-card {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 8px;
-        }
+        #product-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .product-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; }
         .product-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; }
+        
+        /* Modal Styles */
+        #payment-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 20px; border-radius: 8px; text-align: center; }
+        .btn-buy { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -30,17 +27,22 @@
 
     <div id="product-container"></div>
 
+    <!-- Payment Modal -->
+    <div id="payment-modal" onclick="this.style.display='none'">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Scan to Pay</h3>
+            <img id="qr-image" src="" alt="Payment QR" style="width: 250px;">
+            <p id="qr-info"></p>
+            <button onclick="document.getElementById('payment-modal').style.display='none'">Close</button>
+        </div>
+    </div>
+
     <script>
         async function loadCategory(category) {
             const container = document.getElementById('product-container');
             container.innerHTML = 'Loading...';
-
             try {
-                // The ?t=${Date.now()} prevents the browser from using a cached version
                 const response = await fetch(`./products/${category}.json?t=${Date.now()}`);
-                
-                if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-                
                 const products = await response.json();
                 container.innerHTML = ''; 
                 
@@ -48,16 +50,28 @@
                     const card = document.createElement('div');
                     card.className = 'product-card';
                     card.innerHTML = `
-                        <img src="${product.image}" alt="${product.title}" onerror="this.src='https://via.placeholder.com/200'">
+                        <img src="${product.image}" alt="${product.title}">
                         <h3>${product.title}</h3>
-                        <p>Price: ${product.price}</p>
+                        <p>Price: ${product.price} VND</p>
+                        <button class="btn-buy" onclick="showPaymentQR('${product.title}', ${product.price})">Buy Now</button>
                     `;
                     container.appendChild(card);
                 });
-            } catch (error) {
-                container.innerHTML = 'Could not load products.';
-                console.error("Fetch error:", error);
-            }
+            } catch (error) { container.innerHTML = 'Could not load products.'; }
+        }
+
+        function showPaymentQR(title, price) {
+            const orderId = 'DH' + Date.now().toString().slice(-6);
+            // Replace with your actual Bank info
+            const bankBin = "970415"; 
+            const accountNo = "106867636583";
+            const accountName = "NGUYEN QUYNH ANH";
+            
+            const qrUrl = `https://img.vietqr.io/image/${bankBin}-${accountNo}-compact2.png?amount=${price}&addInfo=${orderId}&accountName=${accountName}`;
+            
+            document.getElementById('qr-image').src = qrUrl;
+            document.getElementById('qr-info').innerText = `Pay ${price} VND for ${title}\nOrder: ${orderId}`;
+            document.getElementById('payment-modal').style.display = 'flex';
         }
 
         loadCategory('dairy');
