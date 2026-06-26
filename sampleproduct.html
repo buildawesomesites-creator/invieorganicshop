@@ -6,23 +6,17 @@
     <title>Invie Organic Shop</title>
     <style>
         body { font-family: sans-serif; padding: 20px; }
-        
         #category-select { width: 100%; padding: 10px; margin-bottom: 20px; font-size: 16px; }
-
         #product-container {
             display: grid;
-            /* Mobile first: 1 column, tablets/desktop: 3 columns */
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
         }
-
         .product-card {
             border: 1px solid #ddd;
             padding: 15px;
             border-radius: 8px;
-            transition: transform 0.2s;
         }
-
         .product-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; }
     </style>
 </head>
@@ -42,7 +36,9 @@
             container.innerHTML = 'Loading...';
 
             try {
-                const response = await fetch(`./products/${category}.json`);
+                // The ?t=${Date.now()} prevents the browser from using a cached version
+                const response = await fetch(`./products/${category}.json?t=${Date.now()}`);
+                
                 if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 
                 const products = await response.json();
@@ -52,7 +48,7 @@
                     const card = document.createElement('div');
                     card.className = 'product-card';
                     card.innerHTML = `
-                        <img src="${product.image}" alt="${product.title}">
+                        <img src="${product.image}" alt="${product.title}" onerror="this.src='https://via.placeholder.com/200'">
                         <h3>${product.title}</h3>
                         <p>Price: ${product.price}</p>
                     `;
