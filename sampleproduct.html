@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-
     <select id="category-select" onchange="loadCategory(this.value)">
         <option value="dairy">Dairy</option>
         <option value="vegetables">Vegetables</option>
@@ -16,16 +15,20 @@
             container.innerHTML = 'Loading...';
 
             try {
-                // This fetches exactly the file you want
-                const response = await fetch(`/products/${category}.json`);
-                const products = await response.json();
+                // RELATIVE PATH: This looks for the file in the same folder as the HTML
+                // Make sure your folder structure is /products/dairy.json
+                const response = await fetch(`./products/${category}.json`);
                 
-                container.innerHTML = ''; // Clear loading
+                if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+                
+                const products = await response.json();
+                container.innerHTML = ''; 
                 
                 products.forEach(product => {
                     const card = document.createElement('div');
                     card.className = 'product-card';
                     card.style.border = "1px solid #ccc";
+                    card.style.padding = "10px";
                     card.innerHTML = `
                         <img src="${product.image}" alt="${product.title}" style="width:100%">
                         <h3>${product.title}</h3>
@@ -34,7 +37,8 @@
                     container.appendChild(card);
                 });
             } catch (error) {
-                container.innerHTML = 'Could not load products.';
+                container.innerHTML = 'Could not load products. Check console for error.';
+                console.error("Fetch error:", error);
             }
         }
 
