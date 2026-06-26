@@ -1,18 +1,19 @@
-collections:
+content:
   - name: products
     label: Products
-    folder: products
+    type: collection
+    path: products
     format: json
     fields:
       - name: title
         label: Name
-        widget: string
+        type: string
       - name: price
         label: Price
-        widget: number
+        type: number
       - name: category
         label: Category
-        widget: select
+        type: select
         options:
           - Vegetables
           - Fruits
@@ -20,11 +21,11 @@ collections:
           - Dairy
       - name: tags
         label: Tags
-        widget: list
+        type: list
       - name: image
         label: Image
-        widget: image
+        type: image
       - name: body
         label: Description
-        widget: markdown
+        type: rich-text
         
