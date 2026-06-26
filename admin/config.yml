@@ -2,6 +2,9 @@ backend:
   name: github
   repo: buildawesomesites-creator/invieorganicshop
   branch: main
+  base_url: https://api.github.com # This helps the script attempt a connection
+
+local_backend: true # This forces the CMS to show the UI even if authentication is pending
 
 media_folder: "images"
 public_folder: "/images"
