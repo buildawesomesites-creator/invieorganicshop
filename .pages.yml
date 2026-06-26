@@ -1,3 +1,7 @@
+media:
+  path: images
+  public: /images
+
 content:
   - name: products
     label: Products
@@ -15,10 +19,14 @@ content:
         label: Category
         type: select
         options:
-          - Vegetables
-          - Fruits
-          - Grains
-          - Dairy
+          - value: vegetables
+            label: Vegetables
+          - value: fruits
+            label: Fruits
+          - value: grains
+            label: Grains
+          - value: dairy
+            label: Dairy
       - name: tags
         label: Tags
         type: list
